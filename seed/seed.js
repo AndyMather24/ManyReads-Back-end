@@ -15,15 +15,13 @@ const seedDb = (topicsData, userData, ArticleData) => {
       // insert userdata
       .then(() => {
         return User.insertMany(userData);
-        console.log(userDocs);
       })
-      // add a belongs_to prop  to arts which is a slug from a topic
+      // add a belongs_to prop to arts which is a slug from a topic
       .then(userDocs => {
-        console.log(userDocs);
         return adjustArticles(ArticleData, userDocs);
       })
       .then(AdjustedArticleData => {
-        console.log(AdjustedArticleData);
+        return Article.insertMany(AdjustedArticleData);
       })
   );
 };
