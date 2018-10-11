@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const seedDb = require('../seed/seed.js');
-const DB_URL = 'mongodb://localhost:27017/Ncnews';
+const { DB_URL } = require('../config');
 
 const { topicsData, userData, articlesData, commentData } = require('../seed/testData');
 // connect
