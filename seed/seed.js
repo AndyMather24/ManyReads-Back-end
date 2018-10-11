@@ -9,26 +9,30 @@ const seedDb = (topicsData, userData, articleData, commentData) => {
     mongoose.connection
       .dropDatabase()
       .then(() => {
-        // insert topics data
-        return Topic.insertMany(topicsData);
+        // insert topics data & insert users data
+        const topicDocs = Topic.insertMany(topicsData);
+        const userDocs = User.insertMany(userData);
+        return Promise.all([topicDocs, userDocs]);
       })
-      // insert users data
-      .then(() => {
-        return User.insertMany(userData);
+      .then(([topicDocs, userDocs]) => {
+        // adjust arts data
+        return Promise.all([adjustArticles(articleData, userDocs), topicDocs, userDocs]);
       })
-      // adds a belongs_to prop to arts which is a slug from a topic and rel mongodb id
-      .then(userDocs => {
-        return Promise.all([adjustArticles(articleData, userDocs), userDocs]);
+      // insert adjust arts data
+      .then(([adjustedArts, topicDocs, userDocs]) => {
+        return Promise.all([Article.insertMany(adjustedArts), topicDocs, userDocs]);
       })
-      // inserts altered articles data
-      .then(([adjustedArticleData, userDocs]) => {
-        return Promise.all([userDocs, Article.insertMany(adjustedArticleData)]);
+      // adjust comments data
+      .then(([artDocs, topicDocs, userDocs]) => {
+        return Promise.all([adjustComments(commentData, userDocs, artDocs), artDocs, userDocs, topicDocs]);
       })
-      .then(([userDocs, artDocs]) => {
-        return adjustComments(commentData, userDocs, artDocs);
+      // insert comments data
+      .then(([adjustedcoms, artDocs, userDocs, topicDocs]) => {
+        return Promise.all([Comment.insertMany(adjustedcoms), artDocs, userDocs, topicDocs]);
       })
-      .then(adjustedcoms => {
-        return Comment.insertMany(adjustedcoms);
+      // return the first object in each array of docs
+      .then(([commentDocs, artDocs, userDocs, topicDocs]) => {
+        return [commentDocs[0], artDocs[0], userDocs[0], topicDocs[0]];
       })
   );
 };
