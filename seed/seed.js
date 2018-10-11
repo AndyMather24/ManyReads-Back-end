@@ -32,7 +32,7 @@ const seedDb = (topicsData, userData, articleData, commentData) => {
       })
       // return the first object in each array of docs
       .then(([commentDocs, artDocs, userDocs, topicDocs]) => {
-        return [commentDocs[0], artDocs[0], userDocs[0], topicDocs[0]];
+        return [topicDocs[0], userDocs[0], artDocs[0], commentDocs[0]];
       })
   );
 };
