@@ -22,12 +22,13 @@ const seedDb = (topicsData, userData, articleData, commentData) => {
       })
       // inserts altered articles data
       .then(([adjustedArticleData, userDocs]) => {
-        console.log(commentData);
-        Article.insertMany(adjustedArticleData);
-        return adjustComments(commentData, userDocs, adjustedArticleData);
+        return Promise.all([userDocs, Article.insertMany(adjustedArticleData)]);
+      })
+      .then(([userDocs, artDocs]) => {
+        return adjustComments(commentData, userDocs, artDocs);
       })
       .then(adjustedcoms => {
-        // return console.log(adjustedcoms);
+        return Comment.insertMany(adjustedcoms);
       })
   );
 };

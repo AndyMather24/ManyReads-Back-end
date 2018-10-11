@@ -14,12 +14,13 @@ exports.adjustComments = (data, userDocs, artDocs) => {
   // map over array of objs
   const adjustedComs = data.map(obj => {
     // find matching user from user docs array
-    const matchingUserDoc = userDocs.find(doc => {
+    let matchingUserDoc = userDocs.find(doc => {
       return doc.username === obj.created_by;
     });
-    const matchingArtDoc = artDocs.find(docu => {
-      return docu.title === obj.belongs_to;
+    let matchingArtDoc = artDocs.find(doc => {
+      return doc.title === obj.belongs_to;
     });
+
     return { ...obj, created_by: matchingUserDoc._id, belongs_to: matchingArtDoc._id };
   });
   return adjustedComs;
