@@ -41,4 +41,15 @@ describe('/api', () => {
         });
     });
   });
+  describe('/topics/:topic_slug/articles', () => {
+    it('get request to articles return 200 and arr of length of two', () => {
+      return request
+        .get('/api/topics/mitch/articles')
+        .expect(200)
+        .then(res => {
+          expect(res.body.articles).to.have.lengthOf(2);
+          expect(res.body.articles[0]).to.keys(['__v', '_id', 'belongs_to', 'body', 'created_at', 'created_by', 'title', 'votes']);
+        });
+    });
+  });
 });

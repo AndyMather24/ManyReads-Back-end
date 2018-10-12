@@ -1,8 +1,15 @@
-const router = require('express').Router();
+const apiRouter = require('express').Router();
+const { getHomepage, getTopics, getArticles, getArtsForTopic } = require('../controller');
 
-const { getTopics, getArticles } = require('../controller');
+// home page
+apiRouter.get('/', getHomepage);
 
-router.route('/topics').get(getTopics);
-router.route('/articles').get(getArticles);
+// topics
+apiRouter.get('/topics', getTopics);
 
-module.exports = router;
+apiRouter.get('/topics/:topic_slug/articles', getArtsForTopic);
+
+// articles
+apiRouter.get('/articles', getArticles);
+
+module.exports = apiRouter;

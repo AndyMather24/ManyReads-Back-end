@@ -1,17 +1,5 @@
-const { Topic, Article } = require('../models');
+const { getHomepage } = require('./homepage');
+const { getTopics, getArtsForTopic } = require('./topics');
+const { getArticles } = require('./articles');
 
-exports.getTopics = (req, res) => {
-  Topic.find()
-    .then(topics => {
-      res.send({ topics });
-    })
-    .catch(console.log);
-};
-
-exports.getArticles = (req, res) => {
-  Article.find()
-    .then(articles => {
-      res.send({ articles });
-    })
-    .catch(console.log);
-};
+module.exports = { getTopics, getHomepage, getArticles, getArtsForTopic };
