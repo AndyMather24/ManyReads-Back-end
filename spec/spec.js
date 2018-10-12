@@ -50,17 +50,16 @@ describe('/api', () => {
           expect(res.body.msg).to.equal('Invalid Param');
         });
     });
-
-    // article testing
-    describe('/articles', () => {
-      it('get request to articles return 200 and arr of length of two', () => {
-        return request
-          .get('/api/articles')
-          .expect(200)
-          .then(res => {
-            expect(res.body.articles).to.have.lengthOf(4);
-          });
-      });
+  });
+  // article testing
+  describe('/articles', () => {
+    it('get request to articles return 200 and arr of length of two', () => {
+      return request
+        .get('/api/articles')
+        .expect(200)
+        .then(res => {
+          expect(res.body.articles).to.have.lengthOf(4);
+        });
     });
   });
   describe('/articles/:article_id', () => {
@@ -80,16 +79,26 @@ describe('/api', () => {
           expect(res.body.msg).to.equal('Invalid Param');
         });
     });
-    //
-    describe('/users/:username', () => {
-      it('return single user info when passed an valid username & status 200', () => {
-        return request
-          .get(`/api/users/${userDocs.username}`)
-          .expect(200)
-          .then(res => {
-            expect(res.body.user.username).to.equal(`${userDocs.username}`);
-          });
-      });
+  });
+  // comments testing
+  describe('/users/:username', () => {
+    it('return single user info when passed an valid username & status 200', () => {
+      return request
+        .get(`/api/users/${userDocs.username}`)
+        .expect(200)
+        .then(res => {
+          expect(res.body.user.username).to.equal(`${userDocs.username}`);
+        });
+    });
+  });
+
+  //user testing
+  describe('articles/:article_id/comments', () => {
+    it('return all comments for article matching id when given a valid id & status 200', () => {
+      return request.get(`/api/articles/${artDocs._id}/comments`).expect(200);
+      // .then(res => {
+      //   expect(res.body.comments.).to.equal(`${userDocs.username}`);
+      // });
     });
   });
 });
