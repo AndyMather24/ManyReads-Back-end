@@ -8,9 +8,12 @@ exports.getTopics = (req, res, next) => {
     .catch(next);
 };
 
-exports.getArtsForTopic = (req, res) => {
+exports.getArtsForTopic = (req, res, next) => {
   const param = req.params.topic_slug;
-  Article.find({ belongs_to: param }).then(articles => {
-    res.send({ articles });
-  });
+  Article.find({ belongs_to: param })
+    .then(articles => {
+      if (articles.length === 0) return next({ status: 404, msg: 'Invalid Param' });
+      res.send({ articles });
+    })
+    .catch(next);
 };

@@ -1,5 +1,5 @@
 const apiRouter = require('express').Router();
-const { getHomepage, getTopics, getArticles, getArtsForTopic } = require('../controller');
+const { getHomepage, getTopics, getArticles, getArtsForTopic, getArticlesById } = require('../controller');
 
 // home page
 apiRouter.get('/', getHomepage);
@@ -11,5 +11,7 @@ apiRouter.get('/topics/:topic_slug/articles', getArtsForTopic);
 
 // articles
 apiRouter.get('/articles', getArticles);
+
+apiRouter.get('/articles/:article_id', getArticlesById);
 
 module.exports = apiRouter;

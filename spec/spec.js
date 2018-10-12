@@ -42,14 +42,40 @@ describe('/api', () => {
     });
   });
   describe('/topics/:topic_slug/articles', () => {
-    it('get request to articles return 200 and arr of length of two', () => {
+    it('get request to articles return status 200 and arr of length of two and correct keys', () => {
       return request
         .get('/api/topics/mitch/articles')
         .expect(200)
         .then(res => {
           expect(res.body.articles).to.have.lengthOf(2);
-          expect(res.body.articles[0]).to.keys(['__v', '_id', 'belongs_to', 'body', 'created_at', 'created_by', 'title', 'votes']);
+          //expect(res.body.articles).to.keys(['__v', '_id', 'belongs_to', 'body', 'created_at', 'created_by', 'title', 'votes']);
         });
     });
+    it('get request with a param that does not exist returns status 404 & correct msg', () => {
+      return request
+        .get('/api/topics/turtles/articles')
+        .expect(404)
+        .then(res => {
+          expect(res.body.msg).to.equal('Invalid Param');
+        });
+    });
+  });
+  describe('/articles/:article_id', () => {
+    it('return  single article when passed an valid id & status 200', () => {
+      return request
+        .get(`/api/articles/${artDocs._id}`)
+        .expect(200)
+        .then(res => {
+          expect(res.body.article._id).to.equal(`${artDocs._id}`);
+        });
+    });
+    // it('get request with a valid param that does not exist returns status 404 & correct msg', () => {
+    //   return request
+    //     .get(`/api/topics/${userDocs._id}/articles`)
+    //     .expect(404)
+    //     .then(res => {
+    //       expect(res.body.msg).to.equal('Invalid Param');
+    //     });
+    // });
   });
 });
