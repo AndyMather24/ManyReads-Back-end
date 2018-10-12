@@ -12,7 +12,7 @@ exports.getArtsForTopic = (req, res, next) => {
   const param = req.params.topic_slug;
   Article.find({ belongs_to: param })
     .then(articles => {
-      if (articles.length === 0) return next({ status: 404, msg: 'Invalid Param' });
+      if (articles.length === 0) return Promise.reject({ status: 404, msg: 'Invalid Param' });
       res.send({ articles });
     })
     .catch(next);

@@ -11,8 +11,13 @@ exports.getArticlesById = (req, res, next) => {
   const param = req.params.article_id;
   Article.findOne({ _id: param })
     .then(article => {
-      if (article.length === 0) return next({ status: 404, msg: 'Invalid Param' });
+      if (!article) return Promise.reject({ status: 404, msg: 'Invalid Param' });
       res.send({ article });
     })
-    .catch(next);
+    .catch(err => {
+      if (err.name === 'CastError') next({ status: 400, msg: `${param} is not a valid id` });
+      else {
+        next(err);
+      }
+    });
 };

@@ -15,12 +15,13 @@ describe('/api', () => {
   after(() => {
     mongoose.disconnect();
   });
+
   describe('/incorrecturl', () => {
     it('returns a 404 when endpoint does not exist', () => {
       return request.get('/api/thisisntacorrecturl').expect(404);
     });
   });
-
+  // topics testing
   describe('/topics', () => {
     it('get request to topics return 200 and arr of length of two', () => {
       return request
@@ -28,16 +29,6 @@ describe('/api', () => {
         .expect(200)
         .then(res => {
           expect(res.body.topics).to.have.lengthOf(2);
-        });
-    });
-  });
-  describe('/articles', () => {
-    it('get request to articles return 200 and arr of length of two', () => {
-      return request
-        .get('/api/articles')
-        .expect(200)
-        .then(res => {
-          expect(res.body.articles).to.have.lengthOf(4);
         });
     });
   });
@@ -59,6 +50,18 @@ describe('/api', () => {
           expect(res.body.msg).to.equal('Invalid Param');
         });
     });
+
+    // article testing
+    describe('/articles', () => {
+      it('get request to articles return 200 and arr of length of two', () => {
+        return request
+          .get('/api/articles')
+          .expect(200)
+          .then(res => {
+            expect(res.body.articles).to.have.lengthOf(4);
+          });
+      });
+    });
   });
   describe('/articles/:article_id', () => {
     it('return  single article when passed an valid id & status 200', () => {
@@ -69,13 +72,24 @@ describe('/api', () => {
           expect(res.body.article._id).to.equal(`${artDocs._id}`);
         });
     });
-    // it('get request with a valid param that does not exist returns status 404 & correct msg', () => {
-    //   return request
-    //     .get(`/api/topics/${userDocs._id}/articles`)
-    //     .expect(404)
-    //     .then(res => {
-    //       expect(res.body.msg).to.equal('Invalid Param');
-    //     });
-    // });
+    it('get request with a valid param that does not exist returns status 404 & correct msg', () => {
+      return request
+        .get(`/api/articles/${userDocs._id}`)
+        .expect(404)
+        .then(res => {
+          expect(res.body.msg).to.equal('Invalid Param');
+        });
+    });
+    //
+    describe('/users/:username', () => {
+      it('return single user info when passed an valid username & status 200', () => {
+        return request
+          .get(`/api/users/${userDocs.username}`)
+          .expect(200)
+          .then(res => {
+            expect(res.body.user.username).to.equal(`${userDocs.username}`);
+          });
+      });
+    });
   });
 });
