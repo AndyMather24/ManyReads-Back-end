@@ -17,3 +17,16 @@ exports.getArtsForTopic = (req, res, next) => {
     })
     .catch(next);
 };
+
+exports.addArticleToTopic = (req, res, next) => {
+  const topic_slug = req.params.topic_slug;
+  const article = new Article({ ...req.body, belongs_to: `${topic_slug}` });
+  article
+    .save()
+    .then(art => {
+      res.json(`${art.title} added successfully`);
+    })
+    .catch(err => {
+      next({ status: 400, msg: 'invalid post request' });
+    });
+};
