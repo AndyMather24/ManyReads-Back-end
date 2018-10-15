@@ -10,7 +10,7 @@ exports.getArticles = (req, res, next) => {
 exports.getArticlesById = (req, res, next) => {
   const param = req.params.article_id;
   return Promise.all([Article.findOne({ _id: param }), Comment.count({ belongs_to: param })])
-    .then(([article, commentCount]) => {
+    .then(([article, comment_Count]) => {
       if (!article) return Promise.reject({ status: 404, msg: 'Invalid Param' });
       res.send({ article, comment_Count });
     })
