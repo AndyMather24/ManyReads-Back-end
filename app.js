@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const express = require('express');
+
 const app = express();
 const { DB_URL } = require('./config');
 const apiRouter = require('./router/index');
@@ -11,7 +12,7 @@ mongoose.connect(
   { useNewUrlParser: true }
 );
 app.use(bodyParser.json());
-
+app.get('/', apiRouter);
 app.use('/api', apiRouter);
 
 // none existent routes error handler
