@@ -23,7 +23,7 @@ apiRouter.get('/topics/:topic_slug/articles', getArtsForTopic).post('/topics/:to
 
 // articles
 apiRouter.get('/articles', getArticles);
-apiRouter.get('/articles/:article_id', getArticlesById).patch('/articles/:article_id?vote', changeVote);
+apiRouter.get('/articles/:article_id', getArticlesById).patch('/articles/:article_id', changeVote);
 // comment
 apiRouter.get('/articles/:article_id/comments', getArticleComments).post('/articles/:article_id/comments', addArticleComment);
 apiRouter.delete('/comments/:comment_id', deleteComment);

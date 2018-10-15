@@ -102,6 +102,14 @@ describe('/api', () => {
           expect(res.body.msg).to.equal('Invalid Param');
         });
     });
+    it('patch returns 200 and updated vote count', () => {
+      return request
+        .patch(`/api/articles/${artDocs._id}?vote=up`)
+        .expect(200)
+        .then(res => {
+          expect(res.body.votes).to.be.equal(1);
+        });
+    });
   });
   describe('/articles/:article_id/comments', () => {
     it('POST returns a status 201 and a comment body with id of user that added', () => {

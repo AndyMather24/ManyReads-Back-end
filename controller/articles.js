@@ -23,5 +23,10 @@ exports.getArticlesById = (req, res, next) => {
 };
 
 exports.changeVote = (req, res, next) => {
-  console.log('hi');
+  const article_id = req.params.article_id;
+  const vote = req.query.vote;
+  let difference = vote === 'up' ? 1 : -1;
+  Article.findOneAndUpdate({ _id: article_id }, { $inc: { votes: difference } }, { new: true }).then(article => {
+    res.send(article);
+  });
 };
