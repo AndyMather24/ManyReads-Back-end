@@ -1,4 +1,4 @@
-const { Article } = require('../models');
+const { Article, Comment } = require('../models');
 exports.getArticles = (req, res, next) => {
   Article.find()
     .then(articles => {
@@ -9,10 +9,10 @@ exports.getArticles = (req, res, next) => {
 
 exports.getArticlesById = (req, res, next) => {
   const param = req.params.article_id;
-  Article.findOne({ _id: param })
-    .then(article => {
+  return Promise.all([Article.findOne({ _id: param }), Comment.count({ belongs_to: param })])
+    .then(([article, commentCount]) => {
       if (!article) return Promise.reject({ status: 404, msg: 'Invalid Param' });
-      res.send({ article });
+      res.send({ article, comment_Count });
     })
     .catch(err => {
       if (err.name === 'CastError') next({ status: 400, msg: `${param} is not a valid id` });
