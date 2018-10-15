@@ -1,8 +1,8 @@
 const { getHomepage } = require('./homepage');
 const { getTopics, getArtsForTopic, addArticleToTopic } = require('./topics');
-const { getArticles, getArticlesById } = require('./articles');
+const { getArticles, getArticlesById, changeVote } = require('./articles');
 const { getUserByUsername } = require('./users');
-const { getArticleComments, addArticleComment } = require('./comments');
+const { getArticleComments, addArticleComment, deleteComment } = require('./comments');
 
 module.exports = {
   getTopics,
@@ -13,5 +13,7 @@ module.exports = {
   getUserByUsername,
   getArticleComments,
   addArticleComment,
-  addArticleToTopic
+  addArticleToTopic,
+  deleteComment,
+  changeVote
 };

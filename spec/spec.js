@@ -39,7 +39,7 @@ describe('/api', () => {
         .get('/api/topics/mitch/articles')
         .expect(200)
         .then(res => {
-          //expect(res.body.articles).to.have.lengthOf(2);
+          expect(res.body.articles).to.have.lengthOf(2);
           //expect(res.body.articles).to.keys(['__v', '_id', 'belongs_to', 'body', 'created_at', 'created_by', 'title', 'votes']);
         });
     });
@@ -59,10 +59,7 @@ describe('/api', () => {
           body: 'This is my new article content',
           created_by: `${userDocs._id}`
         })
-        .expect(200)
-        .then(res => {
-          expect(res.body).to.eql('new article added successfully');
-        });
+        .expect(201);
     });
     it('POST returns a status 400 if req.body isnt valid', () => {
       return request
@@ -106,7 +103,18 @@ describe('/api', () => {
         });
     });
   });
-  // comments testing
+  describe('/articles/:article_id/comments', () => {
+    it('POST returns a status 201 and a comment body with id of user that added', () => {
+      return request
+        .post(`/api/articles/${artDocs._id}/comments`)
+        .send({
+          body: 'This is a new comment',
+          created_by: `${userDocs._id}`
+        })
+        .expect(201);
+    });
+  });
+  //user testing
   describe('/users/:username', () => {
     it('return single user info when passed an valid username & status 200', () => {
       return request
@@ -118,13 +126,27 @@ describe('/api', () => {
     });
   });
 
-  //user testing
+  // comments testing
+
   describe('articles/:article_id/comments', () => {
     it('return all comments for article matching id when given a valid id & status 200', () => {
-      return request.get(`/api/articles/${artDocs._id}/comments`).expect(200);
-      // .then(res => {
-      //   expect(res.body.comments.).to.equal(`${userDocs.username}`);
-      // });
+      return request
+        .get(`/api/articles/${artDocs._id}/comments`)
+        .expect(200)
+        .then(res => {
+          expect(res.body.comments).to.have.length(2);
+        });
+    });
+  });
+
+  describe('/comments/:comment_id', () => {
+    it('DELETE returns a status 200 and removed the house', () => {
+      return request
+        .delete(`/api/comments/${commentDocs._id}`)
+        .expect(200)
+        .then(res => {
+          expect(res.body.msg).to.equal(`comment ${commentDocs._id} deleted `);
+        });
     });
   });
 });

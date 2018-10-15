@@ -21,3 +21,7 @@ exports.getArticlesById = (req, res, next) => {
       }
     });
 };
+
+exports.changeVote = (req, res, next) => {
+  console.log('hi');
+};

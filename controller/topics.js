@@ -24,7 +24,8 @@ exports.addArticleToTopic = (req, res, next) => {
   article
     .save()
     .then(art => {
-      res.json(`${art.title} added successfully`);
+      res.status(201);
+      res.send(`${art.title} added successfully`);
     })
     .catch(err => {
       next({ status: 400, msg: 'invalid post request' });

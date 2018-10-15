@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const { User, Article, Comment, Topic } = require('../models/index.js');
 const { adjustArticles, adjustComments } = require('../utils');
-
 // define seedDb function
 const seedDb = (topicsData, userData, articleData, commentData) => {
   // drop table
