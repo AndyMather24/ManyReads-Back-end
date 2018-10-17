@@ -1,10 +1,12 @@
 const { Comment } = require('../models');
+
 exports.getArticleComments = (req, res, next) => {
   const { article_id } = req.params;
   Comment.find({ belongs_to: article_id }).then(comments => {
     res.send({ comments });
   });
 };
+
 exports.addArticleComment = (req, res, next) => {
   const { article_id } = req.params;
   const comment = new Comment({ ...req.body, belongs_to: article_id });

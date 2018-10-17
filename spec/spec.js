@@ -40,7 +40,6 @@ describe('/api', () => {
         .expect(200)
         .then(res => {
           expect(res.body.articles).to.have.lengthOf(2);
-          //expect(res.body.articles).to.keys(['__v', '_id', 'belongs_to', 'body', 'created_at', 'created_by', 'title', 'votes']);
         });
     });
     it('get request with a param that does not exist returns status 404 & correct msg', () => {

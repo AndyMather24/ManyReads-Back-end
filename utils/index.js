@@ -1,4 +1,4 @@
-exports.adjustArticles = (data, docs) => {
+exports.formatArticles = (data, docs) => {
   // map over array of objs
   const adjustedArts = data.map(obj => {
     // find matching user from user docs array
@@ -10,7 +10,7 @@ exports.adjustArticles = (data, docs) => {
   return adjustedArts;
 };
 
-exports.adjustComments = (data, userDocs, artDocs) => {
+exports.formatComments = (data, userDocs, artDocs) => {
   // map over array of objs
   const adjustedComs = data.map(obj => {
     // find matching user from user docs array

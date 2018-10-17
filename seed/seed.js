@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const { User, Article, Comment, Topic } = require('../models/index.js');
-const { adjustArticles, adjustComments } = require('../utils');
+const { formatArticles, formatComments } = require('../utils');
 // define seedDb function
 const seedDb = (topicsData, userData, articleData, commentData) => {
   // drop table
@@ -14,8 +14,9 @@ const seedDb = (topicsData, userData, articleData, commentData) => {
         return Promise.all([topicDocs, userDocs]);
       })
       .then(([topicDocs, userDocs]) => {
+        const formatedArticles = formatArticles(articleData, userDocs);
         // adjust arts data
-        return Promise.all([adjustArticles(articleData, userDocs), topicDocs, userDocs]);
+        return Promise.all([formatedArticles, topicDocs, userDocs]);
       })
       // insert adjust arts data
       .then(([adjustedArts, topicDocs, userDocs]) => {
@@ -23,7 +24,8 @@ const seedDb = (topicsData, userData, articleData, commentData) => {
       })
       // adjust comments data
       .then(([artDocs, topicDocs, userDocs]) => {
-        return Promise.all([adjustComments(commentData, userDocs, artDocs), artDocs, userDocs, topicDocs]);
+        const formatedComments = formatComments(commentData, userDocs, artDocs);
+        return Promise.all([formatedComments, artDocs, userDocs, topicDocs]);
       })
       // insert comments data
       .then(([adjustedcoms, artDocs, userDocs, topicDocs]) => {

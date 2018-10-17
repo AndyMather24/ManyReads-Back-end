@@ -1,4 +1,5 @@
 const { Article, Comment } = require('../models');
+
 exports.getArticles = (req, res, next) => {
   Article.find()
     .then(articles => {
