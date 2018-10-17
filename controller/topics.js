@@ -9,8 +9,8 @@ exports.getTopics = (req, res, next) => {
 };
 
 exports.getArtsForTopic = (req, res, next) => {
-  const param = req.params.topic_slug;
-  Article.find({ belongs_to: param })
+  const { topic_slug } = req.params;
+  Article.find({ belongs_to: topic_slug })
     .then(articles => {
       if (articles.length === 0) return Promise.reject({ status: 404, msg: 'Invalid Param' });
       res.send({ articles });
@@ -19,8 +19,8 @@ exports.getArtsForTopic = (req, res, next) => {
 };
 
 exports.addArticleToTopic = (req, res, next) => {
-  const topic_slug = req.params.topic_slug;
-  const article = new Article({ ...req.body, belongs_to: `${topic_slug}` });
+  const { topic_slug } = req.params;
+  const article = new Article({ ...req.body, belongs_to: topic_slug });
   article
     .save()
     .then(art => {

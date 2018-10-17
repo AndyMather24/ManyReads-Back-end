@@ -1,13 +1,13 @@
 const { Comment } = require('../models');
 exports.getArticleComments = (req, res, next) => {
-  const param = req.params.article_id;
-  Comment.find({ belongs_to: param }).then(comments => {
+  const { article_id } = req.params;
+  Comment.find({ belongs_to: article_id }).then(comments => {
     res.send({ comments });
   });
 };
 exports.addArticleComment = (req, res, next) => {
-  const article_id = req.params.article_id;
-  const comment = new Comment({ ...req.body, belongs_to: `${article_id}` });
+  const { article_id } = req.params;
+  const comment = new Comment({ ...req.body, belongs_to: article_id });
   comment
     .save()
     .then(comment => {
@@ -20,7 +20,7 @@ exports.addArticleComment = (req, res, next) => {
 };
 
 exports.deleteComment = (req, res, next) => {
-  const comment_id = req.params.comment_id;
+  const { comment_id } = req.params;
   Comment.findByIdAndDelete(comment_id)
     .then(comment => {
       if (!comment) return Promise.reject({ status: 404, msg: 'Comment not found with id ' + comment_id });

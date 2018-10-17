@@ -8,8 +8,9 @@ exports.getArticles = (req, res, next) => {
 };
 
 exports.getArticlesById = (req, res, next) => {
-  const param = req.params.article_id;
-  return Promise.all([Article.findOne({ _id: param }), Comment.count({ belongs_to: param })])
+  const { article_id } = req.params;
+  console.log(article_id);
+  return Promise.all([Article.findById({ _id: article_id }), Comment.count({ belongs_to: article_id })])
     .then(([article, comment_Count]) => {
       if (!article) return Promise.reject({ status: 404, msg: 'Invalid Param' });
       res.send({ article, comment_Count });
@@ -23,8 +24,8 @@ exports.getArticlesById = (req, res, next) => {
 };
 
 exports.changeVote = (req, res, next) => {
-  const article_id = req.params.article_id;
-  const vote = req.query.vote;
+  const { article_id } = req.params;
+  const { vote } = req.query;
   let difference = vote === 'up' ? 1 : -1;
   Article.findOneAndUpdate({ _id: article_id }, { $inc: { votes: difference } }, { new: true }).then(article => {
     res.send(article);
