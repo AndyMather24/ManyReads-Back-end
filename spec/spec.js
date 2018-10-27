@@ -56,14 +56,14 @@ describe('/api', () => {
 	describe('/articles', () => {
 		it('get request to articles return 200 and arr of length of two', () => {
 			return request.get('/api/articles').expect(200).then((res) => {
-				expect(res.body.articles).to.have.lengthOf(4);
+				expect(res.body).to.have.lengthOf(4);
 			});
 		});
 	});
 	describe('/articles/:article_id', () => {
 		it('return  single article when passed an valid id & status 200', () => {
 			return request.get(`/api/articles/${artDocs._id}`).expect(200).then((res) => {
-				expect(res.body.article._id).to.equal(`${artDocs._id}`);
+				expect(res.body._id).to.equal(`${artDocs._id}`);
 			});
 		});
 		it('get request with a valid param that does not exist returns status 404 & correct msg', () => {

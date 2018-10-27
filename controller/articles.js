@@ -1,23 +1,31 @@
 const { Article, Comment } = require('../models');
 
 exports.getArticles = (req, res, next) => {
-	Article.find()
-		.then((articles) => {
-			res.send({ articles });
+	return Promise.all([ Article.find().lean(), Comment.find().lean() ])
+		.then(([ articles, comments ]) => {
+			const articlesComment = articles.map((article) => {
+				const comment_count = comments.filter((comment) => comment.belongs_to.toString() === article._id.toString()).length;
+				return { ...article, comment_count };
+			});
+			res.send(articlesComment);
 		})
 		.catch(next);
 };
 
 exports.getArticlesById = (req, res, next) => {
 	const { article_id } = req.params;
-	return Promise.all([ Article.findById({ _id: article_id }), Comment.count({ belongs_to: article_id }) ])
-		.then(([ article, comment_Count ]) => {
+	Article.findById(article_id)
+		.lean()
+		.populate('created_by')
+		.then((article) => {
 			if (!article) return Promise.reject({ status: 404, msg: 'Invalid Param' });
-			res.send({ article, comment_Count });
+			return Promise.all([ Comment.find({ belongs_to: article._id }), article ]);
 		})
-		.catch((err) => {
-			next(err);
-		});
+		.then(([ comments, articles ]) => {
+			const comment_count = comments.length;
+			res.send({ ...articles, comment_count });
+		})
+		.catch(next);
 };
 
 exports.changeVote = (req, res, next) => {
