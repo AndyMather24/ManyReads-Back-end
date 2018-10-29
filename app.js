@@ -1,16 +1,13 @@
 const mongoose = require('mongoose');
 const express = require('express');
-
+process.env.NODE_ENV = 'production';
 const app = express();
 const { DB_URL } = require('./config');
 const apiRouter = require('./router/index');
 const bodyParser = require('body-parser');
 const { handle400, handle404, handle500 } = require('./error-handles');
 
-mongoose.connect(
-  DB_URL,
-  { useNewUrlParser: true }
-);
+mongoose.connect(DB_URL, { useNewUrlParser: true });
 app.use(bodyParser.json());
 app.get('/', apiRouter);
 app.use('/api', apiRouter);
