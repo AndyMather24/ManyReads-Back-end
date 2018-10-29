@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
-const { DB_URL } = require('./config');
+const DB_URL = process.env.DB_URL || require('./config').DB_URL;
 const apiRouter = require('./router/index');
 const bodyParser = require('body-parser');
 const { handle400, handle404, handle500 } = require('./error-handles');
