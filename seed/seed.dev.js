@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const seedDb = require('../seed/seed.js');
 const { DB_URL } = require('../config');
 
-const { topicsData, userData, articlesData, commentData } = require('../seed/devData');
+const { topicsData, userData, articlesData, commentData } = require('./devData');
 // connect
 mongoose
 	.connect(DB_URL, { useNewUrlParser: true })
