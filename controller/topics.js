@@ -12,7 +12,6 @@ exports.getArtsForTopic = (req, res, next) => {
 	const { topic_slug } = req.params;
 	return Promise.all([ Article.find({ belongs_to: topic_slug }).lean(), Comment.find().lean() ])
 		.then(([ articles, comments ]) => {
-			//.then((articles) => {
 			if (articles.length === 0) return Promise.reject({ status: 404, msg: 'Invalid Param' });
 			const articlesComment = articles.map((article) => {
 				const comment_count = comments.filter((comment) => comment.belongs_to.toString() === article._id.toString()).length;
