@@ -27,9 +27,9 @@ exports.addArticleToTopic = (req, res, next) => {
   const article = new Article({ ...req.body, belongs_to: topic_slug });
   article
     .save()
-    .then(res => {
+    .then(art => {
       res.status(201);
-      res.send(res);
+      res.send(art);
     })
     .catch(err => {
       next({ status: 400, msg: 'invalid post request' });
