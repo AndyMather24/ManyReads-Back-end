@@ -29,7 +29,7 @@ exports.addArticleToTopic = (req, res, next) => {
     .save()
     .then(art => {
       res.status(201);
-      res.send(art);
+      res.send(art.body);
     })
     .catch(err => {
       next({ status: 400, msg: 'invalid post request' });
