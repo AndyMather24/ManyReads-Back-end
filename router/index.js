@@ -10,7 +10,8 @@ const {
   addArticleToTopic,
   addArticleComment,
   deleteComment,
-  changeVote
+  changeVote,
+  changeVoteComments
 } = require('../controller');
 
 // home page
@@ -26,7 +27,9 @@ apiRouter.get('/articles', getArticles);
 apiRouter.get('/articles/:article_id', getArticlesById).patch('/articles/:article_id', changeVote);
 // comment
 apiRouter.get('/articles/:article_id/comments', getArticleComments).post('/articles/:article_id/comments', addArticleComment);
-apiRouter.delete('/comments/:comment_id', deleteComment);
+apiRouter.delete('/comments/:comment_id', deleteComment).patch('/comments/:comment_id', changeVoteComments)
+
+
 // users
 apiRouter.get('/users/:username', getUserByUsername);
 

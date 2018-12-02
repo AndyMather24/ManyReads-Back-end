@@ -153,10 +153,10 @@ describe('/api', () => {
     });
     it('add vote and returns status 200', () => {
       return request
-        .patch(`/api/comment/${commentDocs._id}?vote=up`)
+        .patch(`/api/comments/${commentDocs._id}?vote=up`)
         .expect(200)
         .then(res => {
-          expect(res.body.votes).to.be.equal(1);
+          expect(res.body.votes).to.be.equal(8);
         });
     });
   });
