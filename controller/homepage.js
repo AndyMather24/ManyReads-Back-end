@@ -1,5 +1,4 @@
 exports.getHomepage = (req, res) => {
-	res.send(
-		'GET /api, GET /api/topics, GET /api/topics/:topic_slug/articles , POST /api/topics/:topic_slug/articlesGET /api/articles, GET /api/articles/:article_id,GET /api/articles/:article_id/comments, POST /api/articles/:article_id/comments, PATCH /api/articles/:article_id, PATCH /api/comments/:comment_id, DELETE /api/comments/:comment_id ,GET /api/users/:username'
-	);
+  const homepageObj = { routes: ['/', '/topics', '/articles', '/articles/:article_id', '/articles/:article_id/comments', '/comments/:comment_id', '/users/:username'] };
+  res.send(homepageObj);
 };
