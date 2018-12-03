@@ -2,7 +2,7 @@ const { getHomepage } = require('./homepage');
 const { getTopics, getArtsForTopic, addArticleToTopic } = require('./topics');
 const { getArticles, getArticlesById, changeVote } = require('./articles');
 const { getUserByUsername } = require('./users');
-const { getArticleComments, addArticleComment, deleteComment } = require('./comments');
+const { getArticleComments, addArticleComment, deleteComment, changeVoteComments } = require('./comments');
 
 module.exports = {
   getTopics,
@@ -15,5 +15,6 @@ module.exports = {
   addArticleComment,
   addArticleToTopic,
   deleteComment,
-  changeVote
+  changeVote,
+  changeVoteComments
 };
