@@ -15,7 +15,7 @@ const {
 } = require('../controller');
 
 // home page
-apiRouter.get('/', getHomepage);
+apiRouter.get('/api', getHomepage);
 
 // topics
 apiRouter.get('/topics', getTopics);
