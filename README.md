@@ -18,35 +18,35 @@ Using Comic News - Backend
 A working example of this API is published at 
 
 
-Endpoints
+### Endpoints
 The API provides JSON responses to HTTP request methods relating to Articles, Comments, Topics and Users as described on the API.
 
-Articles
+ ### Articles
 Articles may be retrieved or added using the appropriate GET or POST HTTP method.
 
 It's possible to retrieve all articles or articles filtered by topic.
 
+
+
+### Comments
 Comments may be posted to an article on this endpoint.
 
-Comments
 Comment votes may be incremented or decremented using a PATCH method.
 
 A comment may be deleted using DELETE.
 
-Topics
+### Topics
 Topics may be retrieved or added using the appropriate GET or POST method.
 
-Users
+### Users
 Access to every user can be retrieved from this endpoint as well as a single user object.
 
-Errors
+### Errors
 Bad route, request and database errors result in the relevant 400/500 response headers and an error message in the JSON response body.
 
 Express's next() method is used to handle errors.
 
-Seeding Functions
-
-Running locally
+### Seeding Functions and Running locally
 
 Fork & clone this repo, ensure you have the following  installed:
 Node.js 10.6.0
@@ -67,7 +67,9 @@ Run Application
 Run the the following command in the CLI:
 
 npm run dev
-View Endpoints
+
+### View Endpoints
+
 API endpoints can be viewed on the following link: https://nc-news-andy.herokuapp.com/api/
 
 To see an example of the the data returned make a GET request to 
@@ -90,14 +92,15 @@ The /api/articles endpoint will return a JSON object with an array of article ob
 }
   ]
 }
-Running the Tests
-Automated tests for each endpoint are located in ./spec/spec.js.
+### Running the Tests
+
+Tests for each endpoint are located in ./spec/spec.js.
 
 To run test use the following command:
 
 $npm run test
 
-End to End Testing
+### TDD
 Tests use SuperTest, Mocha and Chai for assertion based testing.
 
 All use test use a test data set which located in ./seed/testData
