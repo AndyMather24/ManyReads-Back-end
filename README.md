@@ -1,129 +1,121 @@
-## Northcoders News API
+## Northcoders Back end Poject - Many Reads
+ 
+Fullstack news gathering platform. Articles can be posted, voted on or discussed. The site is hosted through Heroku using MLabs for the database.
 
-### Background
+This project aims to demonstrate some of the skills learnt in four weeks of back end study including:
 
-We will be building the API which to use in the Northcoders News Sprint during the Front End block of the course.
+JavaScript programming
+building a RESTful Web API to respond to HTTP requests
+storing data and interacting with databases
+Test Driven Development
+NodeJS - https://nodejs.org/en/
+supertest - https://www.npmjs.com/package/supertest
+ExpressJS - https://expressjs.com/
+Mocha - https://mochajs.org/
+Mongoose - https://mongoosejs.com/
+Using Comic News - Backend
 
-Our database will be MongoDB. Your Mongoose models have been created for you so that you can see what the data should look like.
-
-### Mongoose Documentation
-
-The below are some of the model methods that you can call on your models.
-
-* [find](http://mongoosejs.com/docs/api.html#model_Model.find)
-* [findOne](http://mongoosejs.com/docs/api.html#model_Model.findOne)
-* [findOneAndUpdate](http://mongoosejs.com/docs/api.html#model_Model.findOneAndUpdate)
-* [findOneAndRemove](http://mongoosejs.com/docs/api.html#model_Model.findOneAndRemove)
-* [findById](http://mongoosejs.com/docs/api.html#model_Model.findById)
-* [findByIdAndUpdate](http://mongoosejs.com/docs/api.html#model_Model.findByIdAndUpdate)
-* [findByIdAndRemove](http://mongoosejs.com/docs/api.html#model_Model.findByIdAndRemove)
-* [update](http://mongoosejs.com/docs/api.html#model_Model.update)
-* [create](https://mongoosejs.com/docs/api.html#model_Model.create)
-* [remove](http://mongoosejs.com/docs/api.html#model_Model-remove)
-* [save](http://mongoosejs.com/docs/api.html#model_Model-save)
-* [count](http://mongoosejs.com/docs/api.html#model_Model.count)
-* [populate](https://mongoosejs.com/docs/api.html#model_Model.populate)
-
-### Step 1 - Seeding
-
-Data has been provided for both testing and development environments so you will need to write a seed function to seed your database. You should think about how you will write your seed file to use either test data or dev data depending on the environment that you're running in.
-
-1.  You will need to seed the topics and users, followed by the articles and comments. 
-
-* Each article should have a `belongs_to` property, referenced by a topic's `topic_slug`, and have a `created_by` property that references a user's mongo `_id`. 
-* Each comment should also have `created_by` property that references a user's mongo `_id` and should also have a `belongs_to` property that references the specific article's mongo `_id`.
-
-### Step 2 - Building and Testing
-
-1.  Build your Express App
-2.  Mount an API Router onto your app
-3.  Define the routes described below
-4.  Define controller functions for each of your routes (remember to use `.populate` for `created_by` and `belongs_to` fields that are mongo ids! This will be extremely useful when you are working on the front-end!)
-5.  You will also need to return a `comment_count` property on all your endpoints that return articles. Attempt it on a single article first, then apply it to your all articles endpoint and finally your post new article. This is a great challenge to help consolidate your understanding of promises. (Note: do __not__ change the models to have a `comment_count` value in the database!)
-6.  Use proper project configuration from the offset, being sure to treat development and test differently.
-7.  Test each route as you go. Remember to test the happy and the unhappy paths! Make sure your error messages are helpful and your error status codes are chosen correctly. Remember to seed the test database using the seeding function and make the saved data available to use within your test suite.
+A working example of this API is published at 
 
 
-**HINT** Make sure to drop and reseed your test database with every test. This will make it much easier to keep track of your data throughout. In order for this to work, you are going to need to keep track of the MongoIDs your seeded docs have been given. In order to do this, you might want to consider what your seed file returns, and how you can use this in your tests.
+Endpoints
+The API provides JSON responses to HTTP request methods relating to Articles, Comments, Topics and Users as described on the API.
 
-### Routes
+Articles
+Articles may be retrieved or added using the appropriate GET or POST HTTP method.
 
-Your server should have the following end-points:
+It's possible to retrieve all articles or articles filtered by topic.
 
-```http
-GET /api 
-# Serves an HTML page with documentation for all the available endpoints
-```
+Comments may be posted to an article on this endpoint.
 
-```http
-GET /api/topics
-# Get all the topics
-```
+Comments
+Comment votes may be incremented or decremented using a PATCH method.
 
-```http
-GET /api/topics/:topic_slug/articles
-# Return all the articles for a certain topic
-# e.g: `/api/topics/football/articles`
-```
+A comment may be deleted using DELETE.
 
-```http
-POST /api/topics/:topic_slug/articles
-# Add a new article to a topic. This route requires a JSON body with title and body key value pairs
-# e.g: `{ "title": "new article", "body": "This is my new article content", "created_by": "user_id goes here"}`
-```
+Topics
+Topics may be retrieved or added using the appropriate GET or POST method.
 
-```http
-GET /api/articles
-# Returns all the articles
-```
+Users
+Access to every user can be retrieved from this endpoint as well as a single user object.
 
-```http
-GET /api/articles/:article_id
-# Get an individual article
-```
+Errors
+Bad route, request and database errors result in the relevant 400/500 response headers and an error message in the JSON response body.
 
-```http
-GET /api/articles/:article_id/comments
-# Get all the comments for a individual article
-```
+Express's next() method is used to handle errors.
 
-```http
-POST /api/articles/:article_id/comments
-# Add a new comment to an article. This route requires a JSON body with body and created_by key value pairs
-# e.g: `{"body": "This is my new comment", "created_by": "user_id goes here"}`
-```
+Seeding Functions
 
-```http
-PATCH /api/articles/:article_id
-# Increment or Decrement the votes of an article by one. This route requires a vote query of 'up' or 'down'
-# e.g: `/api/articles/:article_id?vote=up`
-```
+Running locally
 
-```http
-PATCH /api/comments/:comment_id
-# Increment or Decrement the votes of a comment by one. This route requires a vote query of 'up' or 'down'
-# e.g: `/api/comments/:comment_id?vote=down`
-```
+Fork & clone this repo, ensure you have the following  installed:
+Node.js 10.6.0
+MongoDB 3.4.17
 
-```http
-DELETE /api/comments/:comment_id
-# Deletes a comment
-```
+Inside this the directory, install the required NPM packages:
 
-```http
-GET /api/users/:username
-# e.g: `/api/users/mitch123`
-# Returns a JSON object with the profile data for the specified user.
-```
+$ npm install 
+Seed the Database
+Before seeding the database, ensure you have MongoDB running. In a separate CLI instance run the command:
 
-NOTE: When it comes to building your front end you'll find it extremely useful if your POST comment endpoint returns the new comment with the created_by property populated with the corresponding user object.
+$ mongod
+Data is stored in the ./seed/devData directory in JSON format. To seed your database with this data, run this command in your project CLI:
 
-### Step 3 - Hosting
+$ npm run seed:dev
 
-Once you are happy with your seed/dev file, prepare your project for production. You will need to seed the development data to mLab, and host the API on Heroku. If you've forgotten how to do this, you may want to look at this tutorial! https://www.sitepoint.com/deploy-rest-api-in-30-mins-mlab-heroku/
+Run Application
+Run the the following command in the CLI:
 
-### Step 4 - Preparing for your review and portfolio
+npm run dev
+View Endpoints
+API endpoints can be viewed on the following link: https://nc-news-andy.herokuapp.com/api/
 
-Finally, you should write a README for this project (and remove this one). The README should be broken down like this: https://gist.github.com/PurpleBooth/109311bb0361f32d87a2
+To see an example of the the data returned make a GET request to 
+https://nc-news-andy.herokuapp.com/api/articles
 
-It should also include the link where your herokuapp is hosted.
+The /api/articles endpoint will return a JSON object with an array of article objects in this format:
+
+{
+  "articles": [
+   {
+"_id":"5c03f3f0d13fd65a3380ef97",
+"votes":12,
+"title":"Running a Node App",
+"created_by":"5c03f3f0d13fd65a3380ef96",
+"body":"This is part two of a series on how to get up and running with Systemd and Node.js. This part dives deeper into how to successfully run your app with systemd long-term, and how to set it up in a production environment.",
+"created_at":"2016-08-18T12:07:52.389Z",
+"belongs_to":"coding",
+"__v":0,
+"comment_count":8
+}
+  ]
+}
+Running the Tests
+Automated tests for each endpoint are located in ./spec/spec.js.
+
+To run test use the following command:
+
+$npm run test
+
+End to End Testing
+Tests use SuperTest, Mocha and Chai for assertion based testing.
+
+All use test use a test data set which located in ./seed/testData
+
+Endpoints in a RESTful API must respond to HTTP verbs in the correct manner. The tests in this project therefore:
+
+validate that data is retrieved or amended as appropriate to the controller and HTTP request method
+data is returned in the correct JSON format
+correct HTTP status codes are attached to the response header
+error messages are returned where required
+Built With
+Node.js - JavaScript runtime built on Chrome's V8 JavaScript engine
+Express.js - Web Framework for Node.js, used to create a robust API
+MongoDB - Database
+Mongoose - Object Modelling for Node and Mongo DB
+Mocha - JavaScript test framework
+Chai - Asserion based testing for Mocha
+Supertest - HTTP assertion testing agent
+
+Authors
+Andrew Mather
